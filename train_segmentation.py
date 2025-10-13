@@ -62,7 +62,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--checkpoint-name", default="segmentation_checkpoint.pth")
+    parser.add_argument("--checkpoint-name", default="checkpoints/segmentation_checkpoint.pth")
     parser.add_argument("--num-positives", default=128)
     parser.add_argument("--num-negatives", default=256)
     

@@ -68,8 +68,8 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--checkpoint-name", default="classification_checkpoint.pth")
-    
+    parser.add_argument("--checkpoint-name", default="checkpoints/classification_checkpoint.pth")
+ 
     parser.add_argument("--num-epochs",         type=int,   default=1000)
     parser.add_argument("--batch-size",         type=int,   default=32)
     parser.add_argument("--dropout-p",          type=float, default=0.1)
