@@ -24,9 +24,8 @@ def main(args):
     else:
         start_epoch = 1
     
-    dataloader_workers = multiprocessing.cpu_count() // 2 if use_cuda else 0
     dataset = SegmentationDataset(split="train", device=device, num_positives=args.num_positives, num_negatives=args.num_negatives)
-    dataloader = DataLoader(dataset, batch_size=args.batch_size, drop_last=False, shuffle=True, pin_memory=use_cuda, num_workers=dataloader_workers)
+    dataloader = DataLoader(dataset, batch_size=args.batch_size, drop_last=False, shuffle=True)
 
     epoch_losses = []
     window_size  = 250
@@ -36,7 +35,6 @@ def main(args):
     for epoch in tqdm_iterator:
         epoch_loss = 0.0
         for images, queries, labels in dataloader:
-            images, queries, labels = images.to(device, non_blocking=use_cuda), queries.to(device, non_blocking=use_cuda), labels.to(device, non_blocking=use_cuda)
             logits = classifier(queries, images).squeeze(-1)
             loss = loss_fn(logits, labels)
             loss.backward()

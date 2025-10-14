@@ -123,7 +123,7 @@ class SegmentationDataset(Dataset):
         negative_queries = self._sample_negative_queries(aug_ns_mask)
         queries = torch.cat((positive_queries, negative_queries), 0).float() / 224.
         
-        segmentation_labels = torch.zeros(self.num_positives+self.num_negatives)
+        segmentation_labels = torch.zeros(self.num_positives+self.num_negatives, device=self.device)
         segmentation_labels[:self.num_positives] = 1.
         
         return aug_image, queries, segmentation_labels
@@ -198,7 +198,7 @@ class EvaluationDataset(Dataset):
         self.device        = device
         self.samples = self._load_samples(split=split)
 
-    def _load_samples(self, split, split_fraction, split_seed):
+    def _load_samples(self, split):
         images_path      = f"data/prepared/{split}/images"
         class_maps_path  = f"data/prepared/{split}/classification/masks"
         mask_lists_path  = f"data/prepared/{split}/evaluation/"
@@ -223,4 +223,8 @@ class EvaluationDataset(Dataset):
 
     def __getitem__(self, idx):
         image, class_map, mask_list = self.samples[idx]
-        return image, class_map, mask_list
+        return (
+            image.to(self.device), 
+            class_map.to(self.device), 
+            mask_list
+        )

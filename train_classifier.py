@@ -35,14 +35,16 @@ def main(args):
             correct += (preds == labels).sum().item()
             total += len(labels)
     
-        print(f"Achieved Classification Accuracy of {100 * (correct/total):.2f}% on the test set")
-        
         classifier.train()
+        return correct/total
     
     classifier.train()
     num_epochs = args.num_epochs
     for epoch in range(num_epochs):
-            
+        if epoch % 10 == 0:
+            val_acc = evaluate()
+            print(f"Achieved {val_acc*100:.2f}% validation accuracy after {epoch} epochs!")
+
         epoch_loss = 0.
         for images, labels in train_dataloader:
             images, labels = images.to(device), labels.to(device)

@@ -161,7 +161,7 @@ if __name__ == "__main__":
     import argparse
 
     parser  = argparse.ArgumentParser()
-    parser.add_argument('--split-sizes',    type=list,  default=[0.6, 0.2, 0.2])
+    parser.add_argument('--split-sizes',    nargs=3, type=float,  default=[0.7, 0.1, 0.2])
     parser.add_argument('--shuffle-seed',   type=int,   default=0)
     
     args    = parser.parse_args()

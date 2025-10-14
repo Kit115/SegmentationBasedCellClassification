@@ -15,7 +15,6 @@ def embed_transform(points):
         transformed_coords.append((factor*points).cos())
     return torch.cat(transformed_coords, -1).reshape(batch_size, num_points, -1)
 
-
 class NucleusSegmenter(nn.Module):
     def __init__(self):
         super().__init__()
@@ -138,6 +137,4 @@ class NucleusSegmenter(nn.Module):
             return torch.sigmoid(logit)
 
         return logit
-
-
 
