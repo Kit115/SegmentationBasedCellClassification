@@ -135,10 +135,6 @@ def heatmap_to_bboxes(
     hw = heatmap.numpy()
     mask = hw > threshold  # keep islands strictly above 0.5
 
-    # Connected components with SciPy (very common dependency).
-    # Fallback to scikit-image if you prefer; both are fine.
-    from scipy import ndimage as ndi
-
     structure = ndi.generate_binary_structure(2, connectivity)  # 2D, 4 or 8
     labeled, n = ndi.label(mask, structure=structure)
 
@@ -146,8 +142,7 @@ def heatmap_to_bboxes(
     centers = []
     if n == 0:
         return boxes
-
-    # ndi.find_objects returns a list of slices for each label
+        
     obj_slices = ndi.find_objects(labeled)
     for sl in obj_slices:
         if sl is None:
@@ -158,7 +153,7 @@ def heatmap_to_bboxes(
         area = h * w if min_area > 1 else int((labeled[ys, xs] > 0).sum())
         if area < min_area:
             continue
-        # Convert to (x1,y1,x2,y2) with exclusive max coords
+
         boxes.append((int(xs.start), int(ys.start), int(xs.stop), int(ys.stop)))
         centers.append(((xs.start + xs.stop) / 2 / 224., (ys.start + ys.stop) / 2 / 224.))
         
