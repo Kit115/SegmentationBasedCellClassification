@@ -84,9 +84,9 @@ def create_dataset(label_paths, save_path):
 
         numpy_image = base64_image_to_numpy(label_object["imageData"])
 
-        segmentation_mask   = create_segmentation_mask(label_object)
-        positive_sampling_mask = create_positive_sampling_mask(segmentation_mask)
-        negative_sampling_mask = create_negative_sampling_mask(segmentation_mask)
+        segmentation_mask       = create_segmentation_mask(label_object)
+        positive_sampling_mask  = create_positive_sampling_mask(segmentation_mask)
+        negative_sampling_mask  = create_negative_sampling_mask(segmentation_mask)
 
         classification_mask = create_classification_mask(label_object)
 
@@ -137,7 +137,7 @@ def create_dataset(label_paths, save_path):
 
 def main(args):
     source_path = "data/raw/labels"
-    label_paths = [f"{source_path}/{ln}" for ln in os.listdir(f"{source_path}/")if ln.endswith('.json')]
+    label_paths = sorted([f"{source_path}/{ln}" for ln in os.listdir(f"{source_path}/")if ln.endswith('.json')])
 
     rng = random.Random(args.shuffle_seed)
     rng.shuffle(label_paths)
