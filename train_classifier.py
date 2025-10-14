@@ -72,10 +72,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint-name", default="checkpoints/classification_checkpoint.pth")
  
-    parser.add_argument("--num-epochs",         type=int,   default=1000)
+    parser.add_argument("--num-epochs",         type=int,   default=250)
     parser.add_argument("--batch-size",         type=int,   default=32)
-    parser.add_argument("--dropout-p",          type=float, default=0.1)
-    parser.add_argument("--learning-rate",      type=float, default=3e-4)
+    parser.add_argument("--dropout-p",          type=float, default=0.0)
+    parser.add_argument("--learning-rate",      type=float, default=1e-3)
 
     parser.add_argument('--cuda',    dest="use_cuda", action='store_true')
     parser.add_argument('--no-cuda', dest='use_cuda', action='store_false')
