@@ -24,11 +24,9 @@ class NucleusSegmenter(nn.Module):
         p = k // 2
 
         self.plane_encoder = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=k, padding=p),
-            nn.MaxPool2d(kernel_size=2),   # 224 -> 112
+            nn.Conv2d(3, 16, kernel_size=k, stride=2, padding=p),
             activation_cls(),
-            nn.Conv2d(16, 32, kernel_size=k, padding=p),
-            nn.MaxPool2d(kernel_size=2),   # 112 -> 56
+            nn.Conv2d(16, 32, kernel_size=k, stride=2, padding=p),
             activation_cls(),
             nn.Conv2d(32, 4, kernel_size=k, padding=p),
             activation_cls(),
