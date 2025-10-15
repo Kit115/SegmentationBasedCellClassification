@@ -1,7 +1,7 @@
 # Segmentation Based Cell Classification
 
-This project aims to both segment and classify cells visible on microscope captures produced at the DKFZ.
-Parts of the collected data are available in this repository in `data/raw/labels/`, which include the original microscope images as base64 strings, as well the mask and class labels for the individual cells visible in the images.
+This project aims to both segment and classify cells visible on immunofluorescence (IF) microscope images produced at the DKFZ.
+Parts of the collected data are available in this repository in `data/raw/labels/`, which include the original IF microscope images as base64 strings, as well the mask and class labels for the individual cells visible in the images.
 
 
 As this is a work in progress, the dataset is not complete yet and the labeling may contain inaccuracies.
@@ -23,7 +23,7 @@ The segmentation model uses a coordinate based approach where the model recieves
 The image below describes the data flow at inference time:
 
 ![](assets/InferenceDataFlow.png)
-*First, (x, y)-coordinates are sampled for every pixel in the 224x224 rescaled version of the original microscope image. All of these query coordinates are then run through the segmentation model alongside the image (one forward pass, ~0.25sec on Apple M1 MacBook Air). This constructs a segmentation map across the whole image. Cell location predictions are then extracted from this map either by a connected components algorithm or by gaussian blurring followed by local maxima detection. Finally, 224x224 patches are cut from the original (non rescaled) image around each detected cell location. These patches are then individually fed through the classifier to obtain the class of the cell.*
+*First, (x, y)-coordinates are sampled for every pixel in the 224x224 rescaled version of the original IF microscope image. All of these query coordinates are then run through the segmentation model alongside the IF image (one forward pass, ~0.25sec on Apple M1 MacBook Air). This constructs a segmentation map across the whole IF image. Cell location predictions are then extracted from this map either by a connected components algorithm or by gaussian blurring followed by local maxima detection. Finally, 224x224 patches are cut from the original (non rescaled) IF image around each detected cell location. These patches are then individually fed through the classifier to obtain the class of the cell.*
 
 
 
