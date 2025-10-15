@@ -14,10 +14,16 @@ The classifier is a standard convolutional natwork with strided convolutions for
 
 
 The segmentation model uses a coordinate based approach where the model recieves both an image and a (x, y)-coordinate within that image and decides whether or not that coordinate is occupied by a cell.
+
+
 ![Segmentation Model Architecture Diagram](assets/CellSegmenterArchitectureDiagram.png)
-*The image is processed via a global encoder that captures global information about the image, as well as a local encoder that produces features maps. These features maps are then sampled into via a Region-of-Interest Pooling similar to [Faster R-CNN](https://arxiv.org/pdf/1506.01497) that collects and flattens a patch region around the provided (x, y coordinate). The (x, y) coordinate itself is sinusoidally embedded and then processed by a feed forward model, before it is concatenated with the global representation, the local patch representation and fed through a standard feed forward head.*
+*The image is processed via a global encoder (middle) that captures global information about the image, as well as a local encoder (top) that produces features maps. These features maps are then sampled into via a Region-of-Interest Pooling similar to [Faster R-CNN](https://arxiv.org/pdf/1506.01497) that collects and flattens a patch region around the provided (x, y coordinate). The (x, y) coordinate itself is sinusoidally embedded and then processed by a feed forward model, before it is concatenated with the global representation, the local patch representation and fed through a standard feed forward head.*
 
 
+The image below describes the data flow at inference time:
+
+![](assets/InferenceDataFlow.png)
+*First, (x, y)-coordinates are sampled for every pixel in the 224x224 rescaled version of the original microscope image. All of these query coordinates are then run through the segmentation model alongside the image (one forward pass, ~0.25sec on Apple M1 MacBook Air). This constructs a segmentation map across the whole image. Cell location predictions are then extracted from this map either by a connected components algorithm or by gaussian blurring followed by local maxima detection. Finally, 224x224 patches are cut from the original (non rescaled) image around each detected cell location. These patches are then individually fed through the classifier to obtain the class of the cell.*
 
 
 
