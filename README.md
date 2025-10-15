@@ -30,7 +30,7 @@ The image below describes the data flow at inference time:
 ## Usage
 Install the project and the dependencies by running
 ```bash
-git clone git@github.com:Kit115/SegmentationBasedCellClassification.git && uv sync
+git clone git@github.com:Kit115/SegmentationBasedCellClassification.git && cd SegmentationBasedCellClassification && uv sync
 ```
 
 Run the dataset preparation script to create a train, validation and test split from the raw dataset
