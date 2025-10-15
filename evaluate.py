@@ -13,7 +13,7 @@ from utils import find_heatmap_peaks
 from data.utils import crop_image, base64_mask_to_numpy
 
 @torch.no_grad()
-def run_segmentation(segmentation_model, image, method="connected_components", threshold=0.5, nms_radius=16):
+def run_segmentation(segmentation_model, image, method="maxima_extraction", threshold=0.5, nms_radius=12, sigma=2.0):
     image = FT.resize(image, (224, 224))
     linspace = np.linspace(0.0, 1.0, 224)
     points = np.zeros((224, 224, 2))
@@ -36,7 +36,7 @@ def run_segmentation(segmentation_model, image, method="connected_components", t
         extra = {"bboxes": bboxes}
 
     elif method == "maxima_extraction":
-        keypoints = find_heatmap_peaks(segmentation_map, min_confidence=threshold, nms_radius=12, sigma=2.0)
+        keypoints = find_heatmap_peaks(segmentation_map, min_confidence=threshold, nms_radius=nms_radius, sigma=sigma)
         extra = None
     else:
         raise
@@ -173,7 +173,14 @@ def main(args):
 
     for i in tqdm(range(len(dataset))):
         image, _, mask_list = dataset[i]
-        segmentation_map, keypoints, _  = run_segmentation(segmentation_model, image, threshold=args.detection_threshold, method=args.keypoint_extraction_method)
+        segmentation_map, keypoints, _  = run_segmentation(
+            segmentation_model, 
+            image, 
+            threshold   = args.detection_threshold, 
+            method      = args.keypoint_extraction_method,
+            sigma       = args.maxima_extraction_sigma,
+            nms_radius  = args.maxima_extraction_nms_radius
+        )
         class_predictions               = run_classification(classification_model, image, keypoints)
         scaled_keypoints                = scale_keypoints_to_image(image, keypoints)
         
@@ -194,9 +201,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--split',                      type=str,   default="test",                 choices=["train", "validation", "test"])
-    parser.add_argument('--keypoint-extraction-method', type=str,   default="maxima_extraction",    choices=["maxima_extraction", "connected_components"])
-    parser.add_argument('--detection-threshold',        type=float, default=0.95)
+    parser.add_argument('--split',                          type=str,   default="test",                 choices=["train", "validation", "test"])
+    parser.add_argument('--keypoint-extraction-method',     type=str,   default="maxima_extraction",    choices=["maxima_extraction", "connected_components"])
+    parser.add_argument('--detection-threshold',            type=float, default=0.95)
+    parser.add_argument('--maxima-extraction-sigma',        type=float, default=2.0)
+    parser.add_argument('--maxima-extraction-nms-radius',   type=int,   default=12)
 
     parser.add_argument('--cuda',    dest="use_cuda", action='store_true')
     parser.add_argument('--no-cuda', dest='use_cuda', action='store_false')

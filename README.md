@@ -63,3 +63,4 @@ Precision: 99.17%
 Classification Metrics:
 Accuracy:  94.47%
 ```
+The hyperparameters for the evaluation were estimated based on the validation set.
