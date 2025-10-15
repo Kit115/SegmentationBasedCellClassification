@@ -14,7 +14,7 @@ The classifier is a standard convolutional natwork with strided convolutions for
 
 
 The segmentation model uses a coordinate based approach where the model recieves both an image and a (x, y)-coordinate within that image and decides whether or not that coordinate is occupied by a cell.
-![Segmentation Model Architecture Diagram](assets/CellSegmenterArchitectureDiagram)
+![Segmentation Model Architecture Diagram](assets/CellSegmenterArchitectureDiagram.png)
 *The image is processed via a global encoder that captures global information about the image, as well as a local encoder that produces features maps. These features maps are then sampled into via a Region-of-Interest Pooling similar to [Faster R-CNN](https://arxiv.org/pdf/1506.01497) that collects and flattens a patch region around the provided (x, y coordinate). The (x, y) coordinate itself is sinusoidally embedded and then processed by a feed forward model, before it is concatenated with the global representation, the local patch representation and fed through a standard feed forward head.*
 
 
