@@ -1,6 +1,6 @@
 # Segmentation Based Cell Classification
 
-This project aims to both segment and classify cells visible on microscope captures produced by the DKFZ.
+This project aims to both segment and classify cells visible on microscope captures produced at the DKFZ.
 Parts of the collected data are available in this repository in `data/raw/labels/`, which include the original microscope images as base64 strings, as well the mask and class labels for the individual cells visible in the images.
 
 
