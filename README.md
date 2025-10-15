@@ -17,7 +17,7 @@ The segmentation model uses a coordinate based approach where the model recieves
 
 
 ![Segmentation Model Architecture Diagram](assets/CellSegmenterArchitectureDiagram.png)
-*The image is processed via a global encoder (middle) that captures global information about the image, as well as a local encoder (top) that produces features maps. These features maps are then sampled into via a Region-of-Interest Pooling similar to [Faster R-CNN](https://arxiv.org/pdf/1506.01497) that collects and flattens a patch region around the provided (x, y coordinate). The (x, y) coordinate itself is sinusoidally embedded and then processed by a feed forward model, before it is concatenated with the global representation, the local patch representation and fed through a standard feed forward head.*
+*The image is processed via a global encoder (middle) that captures global information about the image, as well as a local encoder (top) that produces features maps. These features maps are then sampled into via a Region-of-Interest Pooling similar to [Faster R-CNN](https://arxiv.org/pdf/1506.01497) that collects and flattens a patch region around the provided (x, y) coordinate. The (x, y) coordinate itself is sinusoidally embedded and then processed by a feed forward model, before it is concatenated with the global representation, the local patch representation and fed through a standard feed forward head.*
 
 
 The image below describes the data flow at inference time:
