@@ -49,7 +49,7 @@ uv run train_segmentation.py
 ```
 or 
 ```bash
-uv run train_classification.py
+uv run train_classifier.py
 ```
 
 
